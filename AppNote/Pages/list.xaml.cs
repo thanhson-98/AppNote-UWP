@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -37,9 +38,16 @@ namespace AppNote.Pages
             
         }
 
-        private void GetListNoteAsync()
+        private async System.Threading.Tasks.Task GetListNoteAsync()
         {
-            throw new NotImplementedException();
+            Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+            files = await storageFolder.GetFilesAsync();
+
+            foreach (var file in files)
+            {
+                Debug.WriteLine(file.Name);
+                notes.Add(file.Name);
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
